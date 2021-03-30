@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Card, Button } from 'react-bootstrap';
 
 export default function AnimeDetail (props) {
@@ -16,8 +16,10 @@ export default function AnimeDetail (props) {
 
   return (
     <>
-      <Card className="m-1" style={{ width: '16rem' }}>
-        <Card.Img className="card-img" variant="top" src={anime.attributes.posterImage.medium} />
+      <Card className="card m-1" style={{ width: '16rem' }}>
+        <div className="card-img-zoom">
+          <Card.Img className="card-img" variant="top" src={anime.attributes.posterImage.medium} />
+        </div>
         <Card.Body>
           <Card.Title className="card-title">{ anime.attributes.canonicalTitle }</Card.Title>
           <Card.Text className="card-text">
@@ -32,35 +34,3 @@ export default function AnimeDetail (props) {
   )
 }
 
-// class AnimeDetail extends React.Component {
-//   formatDate (date) {
-//     const options = {
-//       year: "numeric",
-//       month: "short",
-//       day: "numeric"
-//     };
-
-//     let format = new Date(date)
-//     return format.toLocaleString("en", options)
-//   }
-
-//   render () {
-//     const { anime } = this.props
-//     return (
-//       <>
-//         <Card className="m-1" style={{ width: '16rem' }}>
-//           <Card.Img className="card-img" variant="top" src={anime.attributes.posterImage.medium} />
-//           <Card.Body>
-//             <Card.Title className="card-title">{ anime.attributes.canonicalTitle }</Card.Title>
-//             <Card.Text className="card-text">
-//               Release Date : { this.formatDate(anime.attributes.startDate) } <br/>
-//               Status : { anime.attributes.status } <br/>
-//               Avg Rating : { !anime.attributes.averageRating ? '-' : anime.attributes.averageRating }
-//             </Card.Text>
-//             <Button className="btn-favourite" variant="primary">Favourite</Button>
-//           </Card.Body>
-//         </Card>
-//       </>
-//     )
-//   }
-// }

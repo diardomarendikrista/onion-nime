@@ -16,6 +16,10 @@ code {
   margin: 10px;
 }
 
+.btn {
+  font-size: 10px;
+}
+
 .btn-favourite {
   position: absolute;
   visibility: hidden;
@@ -23,38 +27,82 @@ code {
   left: 0px;
 }
 
+.btn-search {
+  width: 150px;
+}
+
 .card {
-  background-color: #ffffff;
-  transition: 100ms;
+  transition: 300ms;
 }
 
 .card:hover {
-  background-color: #ddeafa;
+  background-color: #86c4fa;
   box-shadow: 0 0 10px 1px #007efa;
-  transition: 100ms;
+  transition: 500ms;
+}
+
+.card:hover .card-title {
+  font-weight: bold;
+  transform: scale(1.15);
+  transition: 400ms;
+}
+
+.card:hover .card-img {
+  transform: scale(1.15);
+  border-radius: 0px;
+  transition: 500ms;
 }
 
 .card:hover .btn-favourite {
   visibility: visible;
 }
 
+.card-img-zoom {
+  height: 300px; /* [1.1] Set it as per your need */
+  overflow: hidden; /* [1.2] Hide the overflowing of child elements */
+  transition: 500ms;
+}
+
+
 .card-img {
+  overflow: hidden;
   height: 300px;
+  transform: scale(1);
+  transition: 300ms;
 }
 
 .card-title {
   font-size: 18px;
   font-weight: bold;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  transition: 400ms;
 }
 
 .card-text {
+  position: inherit;
+  bottom: 0px;
   font-size: 15px;
+  text-align: left;
+}
+
+.loading {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .page-title {
   color: #007efa;
   font-weight: bold;
-  text-shadow: 5px 2px yellow;
+  text-shadow: 5px 2px #aaffff;
   font-size: 60px;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  width: 94%;
+  margin: auto;
 }
