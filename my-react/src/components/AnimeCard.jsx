@@ -3,6 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { addFavourite } from '../store/actions';
+import setStar from '../helpers/hooks/setStar';
 import Swal from 'sweetalert2'
 
 export default function AnimeDetail (props) {
@@ -26,7 +27,19 @@ export default function AnimeDetail (props) {
   }
 
   const goToFavourite = () => {
-    history.push('/favourites')
+    Swal.fire({
+      title: 'Anime already on your favourite',
+      text: 'Go to favourite page?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#00a4b6',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Go to favourite page'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push('/favourites')
+      }
+    })
   }
 
   const setButton = (id) => {
@@ -64,7 +77,7 @@ export default function AnimeDetail (props) {
           <Card.Text className="card-text">
             Release Date : { formatDate(anime.attributes.startDate) } <br/>
             Status : { anime.attributes.status } <br/>
-            Avg Rating : { !anime.attributes.averageRating ? '-' : anime.attributes.averageRating }
+            Rating : { !anime.attributes.averageRating ? '-' : anime.attributes.averageRating } { setStar(anime.attributes.averageRating) }
           </Card.Text>
           {setButton(anime.id)}
         </Card.Body>

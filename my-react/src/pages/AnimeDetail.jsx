@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container } from 'react-bootstrap';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
-import Swal from 'sweetalert2'
+import setStar from '../helpers/hooks/setStar';
+import Swal from 'sweetalert2';
 
 import {
   setLoading,
@@ -71,7 +72,19 @@ export default function AnimeDetail () {
   }
 
   const goToFavourite = () => {
-    history.push('/favourites')
+    Swal.fire({
+      title: 'Anime already on your favourite',
+      text: 'Go to favourite page?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#00a4b6',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Go to favourite page'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        history.push('/favourites')
+      }
+    })
   }
 
   const setFavourite = (anime) => {
@@ -119,14 +132,14 @@ export default function AnimeDetail () {
           </div>
         </div>
         <hr />
-        <div className="row">
+        <div className="detail-info">
           <div className="col img-detail-container text-center">
             <img className="img-detail" src={JSON.stringify(anime.attributes.posterImage.large).split('"').join('')} alt="gambar" />
           </div>
           <div className="col">
-            <h1 className="text-center font-weight-bold">{JSON.stringify(anime.attributes.canonicalTitle).split('"').join('')}</h1>
+            <h1 className="text-center font-weight-bold mb-4">{JSON.stringify(anime.attributes.canonicalTitle).split('"').join('')}</h1>
             <p>Release date : {formatDate(JSON.stringify(anime.attributes.startDate).split('"').join(''))}</p>
-            <p>Rating: {JSON.stringify(anime.attributes.averageRating).split('"').join('')}</p>
+            <p>Rating : {JSON.stringify(anime.attributes.averageRating).split('"').join('')} {setStar(JSON.stringify(anime.attributes.averageRating).split('"').join(''))}</p>
             <p>Synopsis : {JSON.stringify(anime.attributes.synopsis)}</p>
           </div>
         </div>

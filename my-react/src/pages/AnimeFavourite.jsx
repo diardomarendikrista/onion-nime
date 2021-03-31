@@ -35,7 +35,7 @@ export default function Home () {
       <div className="favourite-empty text-center">
         <h2 className="text-secondary">Oh noo...</h2>
         <h3 className="text-secondary">your favourite list is still empty</h3>
-        <button onClick={() => goToHome()} className="btn btn-outline-secondary">see anime lists</button>
+        <button onClick={() => goToHome()} className="btn btn-outline-secondary">get some favourite anime</button>
       </div>
     )
   }
@@ -51,7 +51,7 @@ export default function Home () {
         <p className="text-left favourite-title">Your Favourite Anime</p>
       </div>
       {animeFavourite.length < 1 ? emptyFavourite() : ''}
-      <div className="d-flex flex-wrap justify-content-left">
+      <div className="d-flex flex-wrap favourite-list">
         {
           animeFavourite.map(anime => (
             <FavouriteCard anime={anime} key={anime.id} />

@@ -119,11 +119,12 @@ code {
 }
 
 .favourite-empty {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: 70px;
+}
+
+.favourite-list {
+  display: flex;
+  justify-content: left;
 }
 
 .img-detail {
@@ -189,10 +190,45 @@ code {
   text-decoration: none;
 }
 
+.star-rate {
+  margin-left: 3px;
+  margin-bottom: 5px;
+}
 
 .search-box {
   display: flex;
   justify-content: center;
   width: 94%;
   margin: auto;
+}
+
+.detail-info {
+  display: flex;
+}
+
+
+/* For mobile phones: */
+@media only screen and (max-width: 768px) {
+
+  .btn-favourite {
+    visibility: visible;
+  }
+
+  .detail-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .favourite-list {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .img-cover {
+    text-align: center;
+    width: 100%;
+    height: 200px;
+    box-shadow: 0 0 10px 1px #fff;
+  }
+
 }
