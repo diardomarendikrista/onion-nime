@@ -12,12 +12,30 @@ code {
     monospace;
 }
 
-.btn-group {
-  margin: 10px;
+.anime-detail {
+  border-radius: 0px;
+  border: solid 1px #007efa;
+  background-color: #c9dcfa;
+  /* background-color: #86c4fa; */
+  box-shadow: 0 0 10px 1px #007efa;
+  padding: 5px;
+  margin-bottom: 30px;
+  margin-top: 20px;
 }
 
 .btn {
   font-size: 10px;
+}
+
+.btn-group {
+  margin: 10px;
+}
+
+.btn-detail {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  margin: 10px;
 }
 
 .btn-favourite {
@@ -63,12 +81,15 @@ code {
   transition: 500ms;
 }
 
-
 .card-img {
   overflow: hidden;
   height: 300px;
   transform: scale(1);
   transition: 300ms;
+}
+
+.card-img:hover {
+  cursor: pointer;
 }
 
 .card-title {
@@ -78,6 +99,10 @@ code {
   transition: 400ms;
 }
 
+.card-title:hover {
+  cursor: pointer;
+}
+
 .card-text {
   position: inherit;
   bottom: 0px;
@@ -85,12 +110,29 @@ code {
   text-align: left;
 }
 
-.loading {
+.img-detail {
+  text-align: center;
+  width: 90%;
+  margin-bottom: 20px;
+}
+
+.img-cover {
+  text-align: center;
+  width: 100%;
+  height: 250px;
+  box-shadow: 0 0 10px 1px #fff;
+}
+
+.loading, .loading-home-btn {
   margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.loading-home-btn {
+  top: 70%;
 }
 
 .page-title {

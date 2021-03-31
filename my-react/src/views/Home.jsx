@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import AnimeDetail from '../components/AnimeDetail.jsx'
-import TitleBar from '../components/TitleBar.jsx'
+import AnimeCard from '../components/AnimeCard.jsx'
+import SearchForm from '../components/SearchForm.jsx'
 import ButtonPage from '../components/ButtonPage.jsx'
+import Loading from '../components/Loading'
+import Error from '../components/Error'
 import { Container } from 'react-bootstrap';
+
 
 export default function Home () {
   const [defaultURL] = useState('https://kitsu.io/api/edge/anime?page%5Blimit%5D=12');
@@ -10,7 +13,7 @@ export default function Home () {
   const [animeList, setAnimeList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [page, setPage] = useState({});
+  const [page, setPage] = useState({});  
 
   function changePage (destinationPage) {
     switch (destinationPage) {  
@@ -45,6 +48,10 @@ export default function Home () {
     }
   }
 
+  useEffect( _ => {
+    document.title = 'OnioNime';
+  }, [])
+
   useEffect( () => {
       setAnimeList([]);
       setLoading(true);
@@ -65,16 +72,16 @@ export default function Home () {
 
   return (
     <Container className="text-center">
-      <TitleBar search={search}/>
+      <SearchForm search={search}/>
       { !loading && !error ? <ButtonPage changePage={changePage} /> : ''}
       <div>
-        {loading ? <img className="loading" src="https://darkiemindyou.files.wordpress.com/2015/04/loading6_230x230-cooler.gif" alt="loading"></img> : ''}
-        {error ? <img className="loading" src="https://media.tenor.com/images/b276eb1262c2ae17a7d94929051d7a9d/tenor.gif" alt="error loading"/> : ''}
+        {loading ? <Loading /> : ''}
+        {error ?  <Error /> : ''}
       </div>
       <div className="d-flex flex-wrap justify-content-center">
         {
           animeList.map(anime => (
-            <AnimeDetail anime={anime} key={anime.id} />
+            <AnimeCard anime={anime} key={anime.id} />
           ))
         }
       </div>

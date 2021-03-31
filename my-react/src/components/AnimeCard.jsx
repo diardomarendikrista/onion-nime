@@ -1,10 +1,12 @@
 import React from 'react'
 import { Card, Button } from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
 
 export default function AnimeDetail (props) {
   const { anime } = props;
+  const history = useHistory();
 
-  function formatDate (date) {
+  const formatDate = (date) => {
     const options = {
       year: "numeric",
       month: "short",
@@ -14,14 +16,18 @@ export default function AnimeDetail (props) {
     return format.toLocaleString("en", options)
   }
 
+  const toDetail = (id) => {
+    history.push(`/anime/${id}`)
+  }
+
   return (
     <>
       <Card className="card m-1" style={{ width: '16rem' }}>
         <div className="card-img-zoom">
-          <Card.Img className="card-img" variant="top" src={anime.attributes.posterImage.medium} />
+          <Card.Img onClick={() => toDetail(anime.id)} className="card-img" variant="top" src={anime.attributes.posterImage.medium} />
         </div>
         <Card.Body>
-          <Card.Title className="card-title">{ anime.attributes.canonicalTitle }</Card.Title>
+          <Card.Title onClick={() => toDetail(anime.id)} className="card-title">{ anime.attributes.canonicalTitle }</Card.Title>
           <Card.Text className="card-text">
             Release Date : { formatDate(anime.attributes.startDate) } <br/>
             Status : { anime.attributes.status } <br/>
