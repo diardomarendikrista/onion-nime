@@ -1,23 +1,32 @@
-import {
-  useParams,
-  useHistory
-} from "react-router-dom";
-import React, { useEffect, useState } from 'react'
+import { useParams, useHistory } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container } from 'react-bootstrap';
-import Loading from '../components/Loading'
-import Error from '../components/Error'
+import Loading from '../components/Loading';
+import Error from '../components/Error';
+import Swal from 'sweetalert2'
+
+import {
+  setLoading,
+  setError,
+  setAnime,
+  addFavourite
+} from '../store/actions'
 
 export default function AnimeDetail () {
   const baseURL = 'https://kitsu.io/api/edge/anime';
   const { id } = useParams()
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const [anime, setAnime] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const anime = useSelector(state => state.anime);
+  const animeFavourite = useSelector(state => state.animeFavourite);
+  const loading = useSelector(state => state.loading);
+  const error = useSelector(state => state.error);
   
   useEffect( () => {
-    setLoading(true);
+    dispatch(setLoading(true))
+
     fetch(`${baseURL}/${id}`)
       .then(res => res.json())
       .then(res => {
@@ -25,16 +34,17 @@ export default function AnimeDetail () {
           const err = res.errors
           throw err;
         } else {
-          setAnime(res.data);
+          dispatch(setAnime(res.data))
         }
       })
       .catch(err => {
         console.log(err);
-        setError(true);
+        dispatch(setError(true))
       })
       .finally( _ => {
-        setLoading(false);
+        dispatch(setLoading(false))
       })
+  // eslint-disable-next-line
   }, [id])
 
   const formatDate = (date) => {
@@ -48,7 +58,7 @@ export default function AnimeDetail () {
   }
 
   const checkCoverImage = () => {
-    const url = anime.attributes.coverImage
+    const url = anime.attributes.coverImage;
     if ( url ) {
       return <img className="img-cover" src={JSON.stringify(url.large).split('"').join('')} alt="gambar" />
     } else {
@@ -57,7 +67,35 @@ export default function AnimeDetail () {
   }
 
   const goToHome = () => { 
-    history.push('/')
+    history.goBack()
+  }
+
+  const goToFavourite = () => {
+    history.push('/favourites')
+  }
+
+  const setFavourite = (anime) => {
+    let alreadyFavourited = animeFavourite.find(favourite => favourite.id === anime.id)
+    if (!alreadyFavourited) {
+      dispatch(addFavourite(anime));
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: `"${anime.attributes.canonicalTitle}" added to your favourites!`
+      })
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `"${anime.attributes.canonicalTitle}" is already on your favourites!`
+      })
+    }
+  }
+
+  const setButton = (id) => {
+    const alreadyFavourited = animeFavourite.find(favourite => favourite.id === anime.id)
+    if (alreadyFavourited) return <button onClick={() => goToFavourite()} className="btn btn-danger">Favourited &#10003;</button>;
+    else return <button onClick={() => setFavourite(anime)} className="btn btn-primary">Add to Favourite</button>
   }
 
   if (loading) {
@@ -73,8 +111,8 @@ export default function AnimeDetail () {
               <div className="">
                 {checkCoverImage()}
                 <div className="btn-detail">
-                  <button className="btn btn-info">Add to Favourite</button><br/>
-                  <button onClick={() => goToHome()} className="btn btn-info">Back to home</button>
+                  {setButton(anime.id)}
+                  <button onClick={() => goToHome()} className="btn btn-info">Back to list</button>
                 </div>
               </div>
             </center>

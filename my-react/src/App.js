@@ -1,7 +1,8 @@
 import './App.css';
 import React from 'react'
-import Home from './views/Home.jsx'
-import AnimeDetail from './views/AnimeDetail.jsx'
+import Home from './pages/Home.jsx'
+import AnimeDetail from './pages/AnimeDetail.jsx'
+import AnimeFavourite from './pages/AnimeFavourite.jsx'
 import TitleBar from './components/TitleBar.jsx'
 import {
   BrowserRouter as Router,
@@ -11,21 +12,22 @@ import {
 
 export default function App () {
   return (
-    <>
+    <Router>
       <TitleBar />
-      <Router>
-        <Switch>
-          <Route path="/anime/:id">
-            <AnimeDetail />
-          </Route>
-          <Route path="/anime">
-            <AnimeDetail />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </Router> 
-    </>
+      <Switch>
+        <Route path="/favourites">
+          <AnimeFavourite />
+        </Route>
+        <Route path="/anime/:id">
+          <AnimeDetail />
+        </Route>
+        <Route path="/anime">
+          <AnimeDetail />
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
   )
 }

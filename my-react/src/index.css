@@ -110,6 +110,22 @@ code {
   text-align: left;
 }
 
+.favourite-title {
+  color: #0c9eff;
+  text-decoration: underline;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-style: italic;
+  font-size: 45px;
+}
+
+.favourite-empty {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .img-detail {
   text-align: center;
   width: 90%;
@@ -119,7 +135,7 @@ code {
 .img-cover {
   text-align: center;
   width: 100%;
-  height: 250px;
+  height: 300px;
   box-shadow: 0 0 10px 1px #fff;
 }
 
@@ -136,11 +152,43 @@ code {
 }
 
 .page-title {
+  margin: auto;
+  width: 300px;
   color: #007efa;
   font-weight: bold;
   text-shadow: 5px 2px #aaffff;
   font-size: 60px;
 }
+
+.page-title:hover {
+  cursor: pointer;
+}
+
+.page-title-menu, .active {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00a4b6;
+  margin: 0px 5px;
+  margin-bottom: 10px;
+}
+
+.page-title-menu:hover {
+  color: #0079ad;
+  text-decoration: none;
+}
+
+.page-title-menu:active {
+  color: #0058af;
+}
+
+.active {
+  color: #0058af;
+}
+
+.active:hover {
+  text-decoration: none;
+}
+
 
 .search-box {
   display: flex;

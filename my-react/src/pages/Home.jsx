@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+
 import AnimeCard from '../components/AnimeCard.jsx'
 import SearchForm from '../components/SearchForm.jsx'
 import ButtonPage from '../components/ButtonPage.jsx'
@@ -6,32 +8,68 @@ import Loading from '../components/Loading'
 import Error from '../components/Error'
 import { Container } from 'react-bootstrap';
 
+import {
+  setAnimeList,
+  setAnime,
+  setLoading,
+  setError,
+  setBaseURL,
+  setPage
+} from '../store/actions'
+
 
 export default function Home () {
-  const [defaultURL] = useState('https://kitsu.io/api/edge/anime?page%5Blimit%5D=12');
-  const [baseURL, setBaseURL] = useState('https://kitsu.io/api/edge/anime?page%5Blimit%5D=12');
-  const [animeList, setAnimeList] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [page, setPage] = useState({});  
+  const defaultURL = useSelector(state => state.defaultURL);
+  const baseURL = useSelector(state => state.baseURL);
+  const animeList = useSelector(state => state.animeList);
+  const loading = useSelector(state => state.loading);
+  const error = useSelector(state => state.error);
+  const page = useSelector(state => state.page);
+
+  const dispatch = useDispatch(); 
+
+  useEffect( _ => {
+    document.title = 'OnioNime';
+  }, [])
+
+  useEffect( () => {
+    dispatch(setLoading(true));
+    dispatch(setAnimeList([]));
+
+    fetch(`${baseURL}`)
+      .then(res => res.json())
+      .then(anime => {
+        dispatch(setPage(anime.links));
+        dispatch(setAnimeList(anime.data));
+        dispatch(setAnime(anime.data[0]));
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch(setError(true));
+      })
+      .finally( _ => {
+        dispatch(setLoading(false));
+      })
+  // eslint-disable-next-line
+  }, [baseURL])
 
   function changePage (destinationPage) {
     switch (destinationPage) {  
       case 'first':
         if (!page.first) console.log(`Page Doesn't Exist`);
-        else setBaseURL(page.first);
+        else dispatch(setBaseURL(page.first));
         break;
       case 'prev':
         if (!page.prev) console.log(`Page Doesn't Exist`);
-        else setBaseURL(page.prev);
+        else dispatch(setBaseURL(page.prev));
         break;
       case 'next':
         if (!page.next) console.log(`Page Doesn't Exist`);
-        else setBaseURL(page.next);
+        else dispatch(setBaseURL(page.next));
         break;
       case 'last':
         if (!page.last) console.log(`Page Doesn't Exist`);
-        else setBaseURL(page.last);
+        else dispatch(setBaseURL(page.last));
         break;
       default:
         break;
@@ -42,33 +80,11 @@ export default function Home () {
     if (search) {
       const keywords = search.split(' ').join('%20')
       const url = `https://kitsu.io/api/edge/anime?filter[text]=${keywords}&page%5Blimit%5D=12`;
-      setBaseURL(url)
+      dispatch(setBaseURL(url))
     } else {
-      setBaseURL(defaultURL)
+      dispatch(setBaseURL(defaultURL))
     }
   }
-
-  useEffect( _ => {
-    document.title = 'OnioNime';
-  }, [])
-
-  useEffect( () => {
-      setAnimeList([]);
-      setLoading(true);
-      fetch(`${baseURL}`)
-        .then(res => res.json())
-        .then(res => {
-          setAnimeList(res.data);
-          setPage(res.links);
-        })
-        .catch(err => {
-          console.log(err);
-          setError(true);
-        })
-        .finally( _ => {
-          setLoading(false);
-        })
-  }, [baseURL])
 
   return (
     <Container className="text-center">
