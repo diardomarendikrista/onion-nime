@@ -9,17 +9,21 @@ import { Container } from 'react-bootstrap';
 
 import {
   setLoading,
-} from '../store/actions'
+} from '../store/actions/page'
 
 
 export default function Home () {
-  const baseURL = useSelector(state => state.baseURL);
-  const animeFavourite = useSelector(state => state.animeFavourite);
-  const loading = useSelector(state => state.loading);
-  const error = useSelector(state => state.error);
+  const baseURL = useSelector(state => state.anime.baseURL);
+  const animeFavourite = useSelector(state => state.favourite.animeFavourite);
+  const loading = useSelector(state => state.page.loading);
+  const error = useSelector(state => state.page.error);
 
   const dispatch = useDispatch(); 
   const history = useHistory();
+
+  useEffect( _ => {
+    document.title = 'OnioNime - Favourite';
+  }, [])
 
   useEffect( () => {
     dispatch(setLoading(false));

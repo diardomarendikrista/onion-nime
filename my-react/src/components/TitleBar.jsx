@@ -6,7 +6,7 @@ export default function SearchForm (props) {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-  const defaultURL = useSelector(state => state.defaultURL)
+  const defaultURL = useSelector(state => state.page.defaultURL)
   
   const goToHome = (event) => {
     event.preventDefault();

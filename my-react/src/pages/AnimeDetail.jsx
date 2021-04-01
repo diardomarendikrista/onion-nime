@@ -7,44 +7,26 @@ import Error from '../components/Error';
 import setStar from '../helpers/hooks/setStar';
 import Swal from 'sweetalert2';
 
-import {
-  setLoading,
-  setError,
-  setAnime,
-  addFavourite
-} from '../store/actions'
+import { addFavourite } from '../store/actions/favourite'
+import { setAnimeAsync } from '../store/actions/anime'
 
 export default function AnimeDetail () {
-  const baseURL = 'https://kitsu.io/api/edge/anime';
   const { id } = useParams()
   const history = useHistory();
   const dispatch = useDispatch();
+  
+  const detailURL = useSelector(state => state.page.detailURL);
+  const anime = useSelector(state => state.anime.anime);
+  const animeFavourite = useSelector(state => state.favourite.animeFavourite);
+  const loading = useSelector(state => state.page.loading);
+  const error = useSelector(state => state.page.error);
 
-  const anime = useSelector(state => state.anime);
-  const animeFavourite = useSelector(state => state.animeFavourite);
-  const loading = useSelector(state => state.loading);
-  const error = useSelector(state => state.error);
+  useEffect( _ => {
+    document.title = 'OnioNime - Detail';
+  }, [])
   
   useEffect( () => {
-    dispatch(setLoading(true))
-
-    fetch(`${baseURL}/${id}`)
-      .then(res => res.json())
-      .then(res => {
-        if (res.errors) {
-          const err = res.errors
-          throw err;
-        } else {
-          dispatch(setAnime(res.data))
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        dispatch(setError(true))
-      })
-      .finally( _ => {
-        dispatch(setLoading(false))
-      })
+    dispatch(setAnimeAsync(detailURL+id));
   // eslint-disable-next-line
   }, [id])
 

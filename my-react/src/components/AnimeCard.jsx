@@ -2,12 +2,13 @@ import React from 'react'
 import { Card, Button } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { addFavourite } from '../store/actions';
 import setStar from '../helpers/hooks/setStar';
 import Swal from 'sweetalert2'
 
+import { addFavourite } from '../store/actions/favourite';
+
 export default function AnimeDetail (props) {
-  const animeFavourite = useSelector(state => state.animeFavourite);
+  const animeFavourite = useSelector(state => state.favourite.animeFavourite);
   const { anime } = props;
   const history = useHistory();
   const dispatch = useDispatch();

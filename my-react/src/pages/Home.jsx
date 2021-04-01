@@ -9,23 +9,21 @@ import Error from '../components/Error'
 import { Container } from 'react-bootstrap';
 
 import {
-  setAnimeList,
-  setAnime,
-  setLoading,
-  setError,
   setBaseURL,
-  setPage
-} from '../store/actions'
+} from '../store/actions/page'
+
+import {
+  setAnimeListAsync
+} from '../store/actions/anime'
 
 
 export default function Home () {
-  const defaultURL = useSelector(state => state.defaultURL);
-  const baseURL = useSelector(state => state.baseURL);
-  const animeList = useSelector(state => state.animeList);
-  const loading = useSelector(state => state.loading);
-  const error = useSelector(state => state.error);
-  const page = useSelector(state => state.page);
-
+  const animeList = useSelector(state => state.anime.animeList);
+  const defaultURL = useSelector(state => state.page.defaultURL);
+  const baseURL = useSelector(state => state.page.baseURL);
+  const loading = useSelector(state => state.page.loading);
+  const error = useSelector(state => state.page.error);
+  const page = useSelector(state => state.page.page);
   const dispatch = useDispatch(); 
 
   useEffect( _ => {
@@ -33,27 +31,15 @@ export default function Home () {
   }, [])
 
   useEffect( () => {
-    dispatch(setLoading(true));
-    dispatch(setAnimeList([]));
-
-    fetch(`${baseURL}`)
-      .then(res => res.json())
-      .then(anime => {
-        dispatch(setPage(anime.links));
-        dispatch(setAnimeList(anime.data));
-        dispatch(setAnime(anime.data[0]));
-      })
-      .catch(err => {
-        console.log(err);
-        dispatch(setError(true));
-      })
-      .finally( _ => {
-        dispatch(setLoading(false));
-      })
+    dispatch(setAnimeListAsync(baseURL));
   // eslint-disable-next-line
   }, [baseURL])
 
-  function changePage (destinationPage) {
+  const pageLimit = (location) => {
+    //
+  }
+
+  const changePage = (destinationPage) => {
     switch (destinationPage) {  
       case 'first':
         if (!page.first) console.log(`Page Doesn't Exist`);
@@ -76,7 +62,7 @@ export default function Home () {
     }
   }
 
-  function search (search) {
+  const search = (search) => {
     if (search) {
       const keywords = search.split(' ').join('%20')
       const url = `https://kitsu.io/api/edge/anime?filter[text]=${keywords}&page%5Blimit%5D=12`;
@@ -86,22 +72,33 @@ export default function Home () {
     }
   }
 
+  const animeListEmpty = () => {
+      return (
+      <div className="favourite-empty text-center">
+        <h2 className="text-secondary">Oh noo...</h2>
+        <h3 className="text-secondary">Your anime is not found</h3>
+        <button onClick={() => dispatch(setBaseURL(defaultURL))} className="btn btn-outline-secondary">See All Anime</button>
+      </div>
+    )
+  }
+
   return (
     <Container className="text-center">
       <SearchForm search={search}/>
-      { !loading && !error ? <ButtonPage changePage={changePage} /> : ''}
+      { animeList.length > 0 && !loading && !error ? <ButtonPage changePage={changePage} /> : ''}
       <div>
         {loading ? <Loading /> : ''}
         {error ?  <Error /> : ''}
       </div>
       <div className="d-flex flex-wrap justify-content-center">
         {
+          animeList.length < 1 && !loading ? animeListEmpty() :
           animeList.map(anime => (
             <AnimeCard anime={anime} key={anime.id} />
           ))
         }
       </div>
-      { !loading && !error ? <ButtonPage changePage={changePage} /> : ''}
+      { animeList.length > 0 && !loading && !error ? <ButtonPage changePage={changePage} /> : ''}
     </Container>
   )
 }

@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom";
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { setError } from '../store/actions'
+import { setError } from '../store/actions/page'
 
 export default function Loading () {
   const history = useHistory();
