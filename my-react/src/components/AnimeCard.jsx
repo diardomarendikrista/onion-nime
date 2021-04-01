@@ -27,6 +27,12 @@ export default function AnimeDetail (props) {
     history.push(`/anime/${id}`)
   }
 
+  const setButton = (id) => {
+    const alreadyFavourited = animeFavourite.find(favourite => favourite.id === anime.id)
+    if (alreadyFavourited) return <Button onClick={() => goToFavourite()} className="btn-favourite" variant="danger">Favourited &#10003;</Button>;
+    else return <Button onClick={() => setFavourite(anime)} className="btn-favourite" variant="primary">Favourite</Button>
+  }
+
   const goToFavourite = () => {
     Swal.fire({
       title: 'Anime already on your favourite',
@@ -41,12 +47,6 @@ export default function AnimeDetail (props) {
         history.push('/favourites')
       }
     })
-  }
-
-  const setButton = (id) => {
-    const alreadyFavourited = animeFavourite.find(favourite => favourite.id === anime.id)
-    if (alreadyFavourited) return <Button onClick={() => goToFavourite()} className="btn-favourite" variant="danger">Favourited 	&#10003;</Button>;
-    else return <Button onClick={() => setFavourite(anime)} className="btn-favourite" variant="primary">Favourite</Button>
   }
 
   const setFavourite = (anime) => {

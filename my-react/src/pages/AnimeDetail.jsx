@@ -2,9 +2,8 @@ import { useParams, useHistory } from "react-router-dom";
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container } from 'react-bootstrap';
-import Loading from '../components/Loading';
-import Error from '../components/Error';
 import setStar from '../helpers/hooks/setStar';
+import { Loading, NotFound } from '../components';
 import Swal from 'sweetalert2';
 
 import { addFavourite } from '../store/actions/favourite'
@@ -15,11 +14,11 @@ export default function AnimeDetail () {
   const history = useHistory();
   const dispatch = useDispatch();
   
-  const detailURL = useSelector(state => state.page.detailURL);
+  const detailURL = useSelector(state => state.anime.detailURL);
   const anime = useSelector(state => state.anime.anime);
   const animeFavourite = useSelector(state => state.favourite.animeFavourite);
-  const loading = useSelector(state => state.page.loading);
-  const error = useSelector(state => state.page.error);
+  const loading = useSelector(state => state.anime.loading);
+  const error = useSelector(state => state.anime.error);
 
   useEffect( _ => {
     document.title = 'OnioNime - Detail';
@@ -96,7 +95,7 @@ export default function AnimeDetail () {
   if (loading) {
     return <Loading />
   } else if (error) {
-    return <Error />
+    return <NotFound />
   } return (
     <Container>
       <div className="anime-detail">

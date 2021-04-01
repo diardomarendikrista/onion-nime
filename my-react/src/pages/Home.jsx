@@ -1,29 +1,29 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-
-import AnimeCard from '../components/AnimeCard.jsx'
-import SearchForm from '../components/SearchForm.jsx'
-import ButtonPage from '../components/ButtonPage.jsx'
-import Loading from '../components/Loading'
-import Error from '../components/Error'
 import { Container } from 'react-bootstrap';
+import Swal from 'sweetalert2';
+
+import {
+  AnimeCard,
+  SearchForm,
+  ButtonPage,
+  Loading,
+  Error
+} from '../components'
 
 import {
   setBaseURL,
-} from '../store/actions/page'
-
-import {
   setAnimeListAsync
 } from '../store/actions/anime'
 
 
 export default function Home () {
   const animeList = useSelector(state => state.anime.animeList);
-  const defaultURL = useSelector(state => state.page.defaultURL);
-  const baseURL = useSelector(state => state.page.baseURL);
-  const loading = useSelector(state => state.page.loading);
-  const error = useSelector(state => state.page.error);
-  const page = useSelector(state => state.page.page);
+  const defaultURL = useSelector(state => state.anime.defaultURL);
+  const baseURL = useSelector(state => state.anime.baseURL);
+  const loading = useSelector(state => state.anime.loading);
+  const error = useSelector(state => state.anime.error);
+  const page = useSelector(state => state.anime.page);
   const dispatch = useDispatch(); 
 
   useEffect( _ => {
@@ -36,25 +36,28 @@ export default function Home () {
   }, [baseURL])
 
   const pageLimit = (location) => {
-    //
+    Swal.fire({
+      icon: 'info',
+      text: `You are already on ${location}`,
+    })
   }
 
   const changePage = (destinationPage) => {
     switch (destinationPage) {  
       case 'first':
-        if (!page.first) console.log(`Page Doesn't Exist`);
+        if (!page.first) pageLimit('first page')
         else dispatch(setBaseURL(page.first));
         break;
       case 'prev':
-        if (!page.prev) console.log(`Page Doesn't Exist`);
+        if (!page.prev) pageLimit('first page')
         else dispatch(setBaseURL(page.prev));
         break;
       case 'next':
-        if (!page.next) console.log(`Page Doesn't Exist`);
+        if (!page.next) pageLimit('last page')
         else dispatch(setBaseURL(page.next));
         break;
       case 'last':
-        if (!page.last) console.log(`Page Doesn't Exist`);
+        if (!page.last) pageLimit('last page')
         else dispatch(setBaseURL(page.last));
         break;
       default:
@@ -92,7 +95,7 @@ export default function Home () {
       </div>
       <div className="d-flex flex-wrap justify-content-center">
         {
-          animeList.length < 1 && !loading ? animeListEmpty() :
+          animeList.length < 1 && !loading && !error ? animeListEmpty() :
           animeList.map(anime => (
             <AnimeCard anime={anime} key={anime.id} />
           ))

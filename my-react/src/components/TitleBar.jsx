@@ -1,12 +1,13 @@
 import React from 'react'
 import { useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
+import onion from '../assets/onion.png';
 
 export default function SearchForm (props) {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-  const defaultURL = useSelector(state => state.page.defaultURL)
+  const defaultURL = useSelector(state => state.anime.defaultURL)
   
   const goToHome = (event) => {
     event.preventDefault();
@@ -31,9 +32,13 @@ export default function SearchForm (props) {
 
   return (
     <>
-      <h1 onClick={(event) => goToHome(event)} className="page-title text-center">
-        OnioNime
-      </h1>
+      <div className="page-title text-center">
+        <img className="page-title-logo" src={onion} alt="onion" />
+        <h1 onClick={(event) => goToHome(event)} className="page-title text-center">
+          OnioNime
+        </h1>
+        <img className="page-title-logo2" src={onion} alt="onion" />
+      </div>
       <div className="text-center">
         <a href="/#" className={classHome} onClick={(event) => goToHome(event)}>Home</a>
         <a href="/#" className={classFavourite} onClick={(event) => goToFavourite(event)}>Favourite</a>

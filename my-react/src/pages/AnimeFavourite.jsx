@@ -1,22 +1,26 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import FavouriteCard from '../components/FavouriteCard.jsx'
-import Loading from '../components/Loading'
-import Error from '../components/Error'
+import {
+  FavouriteCard,
+  Loading,
+  Error
+} from '../components';
+
 import { Container } from 'react-bootstrap';
 
 import {
   setLoading,
-} from '../store/actions/page'
+  setError
+} from '../store/actions/favourite'
 
 
 export default function Home () {
   const baseURL = useSelector(state => state.anime.baseURL);
   const animeFavourite = useSelector(state => state.favourite.animeFavourite);
-  const loading = useSelector(state => state.page.loading);
-  const error = useSelector(state => state.page.error);
+  const loading = useSelector(state => state.favourite.loading);
+  const error = useSelector(state => state.favourite.error);
 
   const dispatch = useDispatch(); 
   const history = useHistory();
@@ -27,11 +31,12 @@ export default function Home () {
 
   useEffect( () => {
     dispatch(setLoading(false));
+    dispatch(setError(false));
   // eslint-disable-next-line
   }, [baseURL])
 
   const goToHome = () => {
-    history.push('/')
+    history.push('/');
   }
 
   const emptyFavourite = () => {

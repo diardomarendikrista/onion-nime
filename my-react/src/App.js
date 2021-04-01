@@ -1,9 +1,13 @@
 import './App.css';
 import React from 'react'
-import Home from './pages/Home.jsx'
-import AnimeDetail from './pages/AnimeDetail.jsx'
-import AnimeFavourite from './pages/AnimeFavourite.jsx'
-import TitleBar from './components/TitleBar.jsx'
+import { TitleBar } from './components'
+
+import {
+  Home,
+  AnimeDetail,
+  AnimeFavourite
+} from './pages'
+
 import {
   BrowserRouter as Router,
   Switch,

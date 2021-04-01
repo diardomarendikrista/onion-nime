@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
+import setStar from '../helpers/hooks/setStar';
 
 export default function AnimeDetail (props) {
   const { anime } = props;
@@ -31,7 +32,7 @@ export default function AnimeDetail (props) {
           <Card.Text className="card-text">
             Release Date : { formatDate(anime.attributes.startDate) } <br/>
             Status : { anime.attributes.status } <br/>
-            Avg Rating : { !anime.attributes.averageRating ? '-' : anime.attributes.averageRating }
+            Rating : { !anime.attributes.averageRating ? '-' : anime.attributes.averageRating } { setStar(anime.attributes.averageRating) }
           </Card.Text>
         </Card.Body>
       </Card>

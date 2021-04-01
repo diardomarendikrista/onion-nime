@@ -12,6 +12,14 @@ code {
     monospace;
 }
 
+.active {
+  color: #0058af;
+}
+
+.active:hover {
+  text-decoration: none;
+}
+
 .anime-detail {
   border-radius: 0px;
   border: solid 1px #007efa;
@@ -110,6 +118,10 @@ code {
   text-align: left;
 }
 
+.detail-info {
+  display: flex;
+}
+
 .favourite-title {
   color: #0c9eff;
   text-decoration: underline;
@@ -182,12 +194,19 @@ code {
   color: #0058af;
 }
 
-.active {
-  color: #0058af;
+.page-title-logo, .page-title-logo2 {
+  position: absolute;
+  width: 100px;
+  z-index: -1;
+  top: -15px;
+  margin-left: -190px;
+  transform: rotate(-28deg);
+  opacity: 80%;
 }
 
-.active:hover {
-  text-decoration: none;
+.page-title-logo2 {
+  margin-left: 90px;
+  transform: rotate(22deg);
 }
 
 .star-rate {
@@ -200,12 +219,8 @@ code {
   justify-content: center;
   width: 94%;
   margin: auto;
+  margin-top: 5px;
 }
-
-.detail-info {
-  display: flex;
-}
-
 
 /* For mobile phones: */
 @media only screen and (max-width: 768px) {
