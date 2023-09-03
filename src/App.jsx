@@ -1,20 +1,12 @@
-import './App.css';
-import React from 'react'
-import { TitleBar } from './components'
+import "./App.css";
+import React from "react";
+import { TitleBar } from "./components";
 
-import {
-  Home,
-  AnimeDetail,
-  AnimeFavourite
-} from './pages'
+import { Home, AnimeDetail, AnimeFavourite } from "./pages";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-export default function App () {
+export default function App() {
   return (
     <Router>
       <TitleBar />
@@ -33,5 +25,5 @@ export default function App () {
         </Route>
       </Switch>
     </Router>
-  )
+  );
 }
