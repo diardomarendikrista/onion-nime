@@ -1,12 +1,26 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { TitleBar } from "./components";
+import { getFavourite } from "store/actions/favourite";
 
 import { Home, AnimeDetail, AnimeFavourite } from "./pages";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 export default function App() {
+  const dispatch = useDispatch();
+
+  // init for read localStorage DB
+  useEffect(() => {
+    if (
+      localStorage.getItem("favourite") &&
+      JSON.parse(localStorage.getItem("favourite"))?.length > 0
+    ) {
+      console.log(JSON.parse(localStorage.getItem("favourite")));
+      dispatch(getFavourite());
+    }
+  }, []);
+
   return (
     <Router>
       <TitleBar />
